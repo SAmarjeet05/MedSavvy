@@ -142,14 +142,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_URL = '/images/'
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+# Where collectstatic will put all static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Additional locations of static files (your project-level static dir)
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static'),
 ]
+
+# Media files (user-uploaded content)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# WhiteNoise storage (for Render)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 ### SSLCOMMERZ env variables
 #VARIABLE should be in capital letter.
