@@ -1,10 +1,12 @@
 import setuptools
 from pathlib import Path
+
 setuptools.setup(
     name="sslcommerz-lib",
-    version=1.0,
-    description="SSLCOMERZ PAYMENT GATEWAY",
+    version="1.0.0",
+    description="SSLCOMMERZ PAYMENT GATEWAY",
     long_description=Path("README.md").read_text(),
+    long_description_content_type="text/markdown",
     author="SSLCOMMERZ Developers",
     url="https://github.com/sajanPoddar/sslcommerz-lib-py",
     author_email="sajan.sslwireless@gmail.com",
@@ -13,7 +15,7 @@ setuptools.setup(
     install_requires=[
         "requests",
     ],
-    classifiers=(
+    classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
         "Operating System :: OS Independent",
@@ -24,5 +26,6 @@ setuptools.setup(
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Topic :: Software Development :: Libraries :: Python Modules",
-    ),
+    ],
+    python_requires=">=3.6",
 )
