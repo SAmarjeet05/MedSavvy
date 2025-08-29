@@ -489,61 +489,73 @@ def patient_profile(request, pk):
     context = {'doctor': doctor, 'appointments': appointments, 'patient': patient, 'prescription': prescription, 'report': report}  
     return render(request, 'patient-profile.html', context)
 
-
 @csrf_exempt
 @login_required(login_url="doctor-login")
-def create_prescription(request,pk):
-        if request.user.is_doctor:
-            doctor = Doctor_Information.objects.get(user=request.user)
-            patient = Patient.objects.get(patient_id=pk) 
-            create_date = datetime.date.today()
-            
+def create_prescription(request, pk):
+    if request.user.is_doctor:
+        doctor = Doctor_Information.objects.get(user=request.user)
+        patient = Patient.objects.get(patient_id=pk)
+        create_date = datetime.date.today()
 
-            if request.method == 'POST':
-                prescription = Prescription(doctor=doctor, patient=patient)
-                
-                test_name= request.POST.getlist('test_name')
-                test_description = request.POST.getlist('description')
-                medicine_name = request.POST.getlist('medicine_name')
-                medicine_quantity = request.POST.getlist('quantity')
-                medecine_frequency = request.POST.getlist('frequency')
-                medicine_duration = request.POST.getlist('duration')
-                medicine_relation_with_meal = request.POST.getlist('relation_with_meal')
-                medicine_instruction = request.POST.getlist('instruction')
-                extra_information = request.POST.get('extra_information')
-                test_info_id = request.POST.getlist('id')
+        if request.method == 'POST':
+            prescription = Prescription(doctor=doctor, patient=patient)
 
-            
-                prescription.extra_information = extra_information
-                prescription.create_date = create_date
-                
-                prescription.save()
+            test_name = request.POST.getlist('test_name')
+            test_description = request.POST.getlist('description')
+            medicine_name = request.POST.getlist('medicine_name')
+            medicine_quantity = request.POST.getlist('quantity')
+            medicine_frequency = request.POST.getlist('frequency')
+            medicine_duration = request.POST.getlist('duration')
+            medicine_relation_with_meal = request.POST.getlist('relation_with_meal')
+            medicine_instruction = request.POST.getlist('instruction')
+            extra_information = request.POST.get('extra_information')
+            test_info_id = request.POST.getlist('id')
 
-                for i in range(len(medicine_name)):
-                    medicine = Prescription_medicine(prescription=prescription)
-                    medicine.medicine_name = medicine_name[i]
-                    medicine.quantity = medicine_quantity[i]
-                    medicine.frequency = medecine_frequency[i]
-                    medicine.duration = medicine_duration[i]
-                    medicine.instruction = medicine_instruction[i]
-                    medicine.relation_with_meal = medicine_relation_with_meal[i]
-                    medicine.save()
+            # Set prescription general information
+            prescription.extra_information = extra_information
+            prescription.create_date = create_date
+            prescription.save()
 
-                for i in range(len(test_name)):
-                    tests = Prescription_test(prescription=prescription)
-                    tests.test_name = test_name[i]
-                    tests.test_description = test_description[i]
-                    tests.test_info_id = test_info_id[i]
-                    test_info = Test_Information.objects.get(test_id=test_info_id[i])
-                    tests.test_info_price = test_info.test_price
-                   
-                    tests.save()
+            # Process medicines
+            for i in range(len(medicine_name)):
+                medicine = Prescription_medicine(prescription=prescription)
+                medicine.medicine_name = medicine_name[i]
+                medicine.quantity = medicine_quantity[i]
+                medicine.frequency = medicine_frequency[i]
+                medicine.duration = medicine_duration[i]
+                medicine.instruction = medicine_instruction[i]
+                medicine.relation_with_meal = medicine_relation_with_meal[i]
+                medicine.save()
 
-                messages.success(request, 'Prescription Created')
-                return redirect('patient-profile', pk=patient.patient_id)
-             
-        context = {'doctor': doctor,'patient': patient}  
-        return render(request, 'create-prescription.html',context)
+            # Process tests using selected test_id from frontend
+            test_id_list = request.POST.getlist('test_id')
+            for i in range(len(test_id_list)):
+                test_id = test_id_list[i]
+                if not test_id:
+                    continue
+                try:
+                    test_info = Test_Information.objects.get(test_id=test_id)
+                except Test_Information.DoesNotExist:
+                    messages.error(request, f"Test with ID {test_id} not found.")
+                    continue
+                tests = Prescription_test(prescription=prescription)
+                tests.test_name = test_info.test_name
+                tests.test_description = test_description[i] if i < len(test_description) else ''
+                tests.test_info_id = test_id
+                tests.test_info_price = test_info.test_price
+                tests.save()
+
+            messages.success(request, 'Prescription Created')
+            return redirect('patient-profile', pk=patient.patient_id)
+    
+    from pharmacy.models import Medicine
+    tests = Test_Information.objects.all()
+    medicines = Medicine.objects.all()
+    context = {'doctor': doctor, 'patient': patient, 'tests': tests, 'medicine': medicines}
+    return render(request, 'create-prescription.html', context)
+
+
+    
 
         
 @csrf_exempt      
@@ -595,15 +607,43 @@ def report_pdf(request, pk):
 def patient_search(request, pk):
     if request.user.is_authenticated and request.user.is_doctor:
         doctor = Doctor_Information.objects.get(doctor_id=pk)
-        id = int(request.GET['search_query'])
-        patient = Patient.objects.get(patient_id=id)
-        prescription = Prescription.objects.filter(doctor=doctor).filter(patient=patient)
-        context = {'patient': patient, 'doctor': doctor, 'prescription': prescription}
-        return render(request, 'patient-profile.html', context)
+        search_query = request.GET.get('search_query', '').strip()
+        # Remove the '#PT' prefix if present (case-insensitive)
+        if search_query.upper().startswith('#PT'):
+            search_query = search_query[3:].strip()
+        patient = None
+
+        if search_query:
+            if search_query.isdigit():
+                try:
+                    patient = Patient.objects.get(patient_id=int(search_query))
+                except Patient.DoesNotExist:
+                    messages.error(request, "Patient not found.")
+                    return redirect('doctor-dashboard')
+            else:
+                # Try Patient serial_number first
+                try:
+                    patient = Patient.objects.get(serial_number=search_query)
+                except Patient.DoesNotExist:
+                    # Try Appointment serial_number
+                    try:
+                        appointment = Appointment.objects.get(serial_number=search_query)
+                        patient = appointment.patient
+                    except Appointment.DoesNotExist:
+                        messages.error(request, "Patient not found.")
+                        return redirect('doctor-dashboard')
+
+            prescription = Prescription.objects.filter(doctor=doctor, patient=patient)
+            context = {'patient': patient, 'doctor': doctor, 'prescription': prescription}
+            return render(request, 'patient-profile.html', context)
+        else:
+            messages.error(request, "Invalid search query.")
+            return redirect('doctor-dashboard')
     else:
         logout(request)
         messages.info(request, 'Not Authorized')
         return render(request, 'doctor-login.html')
+
 
 @csrf_exempt
 @login_required(login_url="login")

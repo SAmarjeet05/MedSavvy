@@ -1,385 +1,820 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <!-- doccure/patient-profile.html  30 Nov 2019 04:12:09 GMT -->
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=0"
-    />
-    <title>MedSavvy</title>
+<!-- doccure/patient-profile.html  30 Nov 2019 04:12:09 GMT -->
 
-    <!-- Favicons -->
-    <link
-      type="image/x-icon"
-      href="{% static 'MedSavvy-System/images/Normal/favicon.png' %}"
-      rel="icon"
-    />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+  <title>MedSavvy</title>
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="{% static 'MedSavvy-System/css/Normal/bootstrap.min.css' %}"
-    />
+  <!-- Favicons -->
+  <link type="image/x-icon" href="{% static 'MedSavvy-System/images/Normal/favicon.png' %}" rel="icon" />
 
-    <!-- Fontawesome CSS -->
-    <link
-      rel="stylesheet"
-      href="{% static 'MedSavvy-System/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'MedSavvy-System/plugins/Normal/fontawesome/css/all.min.css' %}"
-    />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'MedSavvy-System/css/Normal/bootstrap.min.css' %}" />
 
-    <!-- Main CSS -->
-    <link
-      rel="stylesheet"
-      href="{% static 'MedSavvy-System/css/Normal/style.css' %}"
-    />
+  <!-- Fontawesome CSS -->
+  <link rel="stylesheet" href="{% static 'MedSavvy-System/plugins/Normal/fontawesome/css/fontawesome.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'MedSavvy-System/plugins/Normal/fontawesome/css/all.min.css' %}" />
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{% static 'MedSavvy-System/css/Normal/style.css' %}" />
+
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
       <script src="assets/js/html5shiv.min.js"></script>
       <script src="assets/js/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <!-- Main Wrapper -->
-    <div class="main-wrapper">
-       <!-- Header -->
-       <header class="header">{% include 'doctor-navbar.html' %}</header>
-       <!-- /Header -->
- 
-     
-      <!-- Breadcrumb -->
-      <div class="breadcrumb-bar">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div class="col-md-12 col-12">
-              <nav aria-label="breadcrumb" class="page-breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="{% url 'hospital_home'%}">Home</a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Add Prescription
-                  </li>
-                </ol>
-              </nav>
-              <h2 class="breadcrumb-title">Add Prescription</h2>
-            </div>
+</head>
+
+<body>
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header class="header">{% include 'doctor-navbar.html' %}</header>
+    <!-- /Header -->
+
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-md-12 col-12">
+            <nav aria-label="breadcrumb" class="page-breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'hospital_home'%}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Add Prescription
+                </li>
+              </ol>
+            </nav>
+            <h2 class="breadcrumb-title">Add Prescription</h2>
           </div>
         </div>
       </div>
-      <!-- /Breadcrumb -->
+    </div>
+    <!-- /Breadcrumb -->
 
-      <!-- Page Content -->
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
-              <!-- Profile Widget -->
-              <div class="card widget-profile pat-widget-profile">
-                <div class="card-body">
-                  <div class="pro-widget-content">
-                    <div class="profile-info-widget">
-                      <a href="#" class="booking-doc-img">
-                        <img
-                          src="{{ patient.featured_image.url }}"
-                          alt="User Image"
-                        />
-                      </a>
-                      <div class="profile-det-info">
-                        <h3><a href="#">{{patient.name}}</a></h3>
+    <!-- Page Content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
+            <!-- Profile Widget -->
+            <div class="card widget-profile pat-widget-profile">
+              <div class="card-body">
+                <div class="pro-widget-content">
+                  <div class="profile-info-widget">
+                    <a href="#" class="booking-doc-img">
+                      <img src="{{ patient.featured_image.url }}" alt="User Image" />
+                    </a>
+                    <div class="profile-det-info">
+                      <h3><a href="#">{{patient.name}}</a></h3>
 
 
-                        <div class="patient-details">
-                          <h5><b>ID :</b> {{ patient.patient_id }}</h5>
-                          <h5 class="mb-0">
-                            <i class="fas fa-map-marker-alt"></i>
-                            {{ patient.address }}
-                          </h5>
-                        </div>
+                      <div class="patient-details">
+                        <h5><b>ID :</b> {{ patient.patient_id }}</h5>
+                        <h5 class="mb-0">
+                          <i class="fas fa-map-marker-alt"></i>
+                          {{ patient.address }}
+                        </h5>
                       </div>
                     </div>
                   </div>
-                  <div class="patient-info">
-                    <ul>
-                      <li>Phone <span>{{patient.phone_number}}</span></li>
-                      <li>Age <span>{{patient.age}}</span></li>
-                      <li>Blood Group <span>{{patient.blood_group}}</span></li>
-                    </ul>
-                  </div>
+                </div>
+                <div class="patient-info">
+                  <ul>
+                    <li>Phone <span>{{patient.phone_number}}</span></li>
+                    <li>Age <span>{{patient.age}}</span></li>
+                    <li>Blood Group <span>{{patient.blood_group}}</span></li>
+                  </ul>
                 </div>
               </div>
             </div>
-			<div class="col-md-7 col-lg-8 col-xl-9">
-				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title mb-0">Add Prescription</h4>
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="biller-info">
-									<h4 class="d-block">{{doctor.name}}</h4>
-									<span class="d-block text-sm text-muted">{{doctor.department_name}}</span>
-									<span class="d-block text-sm text-muted">{{doctor.phone_number}}</span>
-									<span class="d-block text-sm text-muted">{{doctor.email}}</span>
-								</div>
-							</div>
-							<div class="col-sm-6 text-sm-right">
-								<div class="billing-info">
-          
-									<h4 class="d-block">{{current_date}}</h4>
-                  
-									<!-- <span class="d-block text-muted">#INV0001</span> -->
-								</div>
-							</div>
-						</div>
-						
-
-						
-						<!-- Prescription Item -->
-            <form action="#" method="POST" enctype="multipart/form-data">
-              {% csrf_token %}
-            <div class="card card-table">
+          </div>
+          <div class="col-md-7 col-lg-8 col-xl-9">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title mb-0">Add Prescription</h4>
+              </div>
               <div class="card-body">
-                  <h4 class="card-title"><b>Medicine List</b></h4>
-                  <div class="medicine-info">
-                      <div class="row form-row medicine-cont">
-                  
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="biller-info">
+                      <h4 class="d-block">{{doctor.name}}</h4>
+                      <span class="d-block text-sm text-muted">{{doctor.department_name}}</span>
+                      <span class="d-block text-sm text-muted">{{doctor.phone_number}}</span>
+                      <span class="d-block text-sm text-muted">{{doctor.email}}</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 text-sm-right">
+                    <div class="billing-info">
+
+                      <h4 class="d-block">{{current_date}}</h4>
+
+                      <!-- <span class="d-block text-muted">#INV0001</span> -->
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <!-- Prescription Item -->
+                <form action="#" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="card card-table">
+                    <div class="card-body">
+                      <h4 class="card-title"><b>Medicine List</b></h4>
+                      <div class="medicine-info">
+                        <div id="medicine-options-template" style="display:none;">
+                          {% for m in medicine %}
+                          <option value="{{ m.name }}">{{ m.name }}</option>
+                          {% endfor %}
+                        </div>
+                        <div class="row form-row medicine-cont">
+
                           <div class="col-12 col-md-10 col-lg-11">
-                              <div class="row form-row">
-									
-										
-                            <div class="col-12 col-md-6 col-lg-3">
-                              <div class="form-group">
+                            <div class="row form-row">
+
+
+                              <div class="col-12 col-md-6 col-lg-3">
+                                <div class="form-group">
                                   <label>Medicine Name</label>
-                                  <input type="text" class="form-control" name="medicine_name" id="medicine_name">
-                              </div> 
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-3">
-                              <div class="form-group">
+                                  <select class="form-control select2-med form-control" name="medicine_name"
+                                    id="medicine_name_select" required>
+                                    <option value="">Select Medicine</option>
+                                    {% for m in medicine %}
+                                    <option value="{{ m.name }}">{{ m.name }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-lg-3">
+                                <div class="form-group">
                                   <label>Quantity</label>
                                   <input type="text" class="form-control" name="quantity" id="quantity">
-                              </div> 
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-3">
-                              <div class="form-group">
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-lg-3">
+                                <div class="form-group">
                                   <label>Frequency</label>
-                                  <input type="text" class="form-control" name="frequency" id="frequency">
-                              </div> 
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-3">
-                              <div class="form-group">
+                                  <select class="form-control select2-field select2-med" name="frequency" required>
+                                    <option value="">Select Frequency</option>
+                                    <option>Once a day</option>
+                                    <option>Twice a day</option>
+                                    <option>Thrice a day</option>
+                                    <option>Every 6 hours</option>
+                                    <option>As needed</option>
+                                  </select>
+
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-lg-3">
+                                <div class="form-group">
                                   <label>Relation with meal</label>
-                                  <input type="text" class="form-control" name="relation_with_meal" id="relation_with_meal">
-                              </div> 
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-6">
-                              <div class="form-group">
+                                  <select class="form-control select2-field select2-med" name="relation_with_meal"
+                                    required>
+                                    <option value="">Select Meal Relation</option>
+                                    <option>Before meal</option>
+                                    <option>After meal</option>
+                                    <option>With meal</option>
+                                    <option>Empty stomach</option>
+                                  </select>
+
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-lg-6">
+                                <div class="form-group">
                                   <label>Duration</label>
-                                  <input type="text" class="form-control" name="duration" id="duration">
-                              </div> 
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-6">
-                              <div class="form-group">
+                                  <select class="form-control select2-field select2-med" name="duration" required>
+                                    <option value="">Select Duration</option>
+                                    <option>3 days</option>
+                                    <option>5 days</option>
+                                    <option>7 days</option>
+                                    <option>10 days</option>
+                                    <option>14 days</option>
+                                    <option>1 month</option>
+                                  </select>
+
+                                </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-lg-6">
+                                <div class="form-group">
                                   <label>Instruction</label>
-                                  <input type="text" class="form-control" name="instruction" id="instruction">
-                              </div> 
-                            </div>
-								
-                  </div>
-              </div>
+                                  <div class="input-group">
+                                    <input type="text" class="form-control instruction-input" name="instruction" />
+                                    <div class="input-group-append">
+                                      <button class="btn btn-secondary start-instruction-voice" type="button"
+                                        title="Speak Instruction">
+                                        <i class="fas fa-microphone"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
 
-              <div class="col-12 col-md-2 col-lg-1"><label class="d-md-block d-sm-none d-none">&nbsp;</label><a href="#" class="btn btn-danger trash"><i class="far fa-trash-alt"></i></a></div>
-
-          </div>
-          
-          
-      </div>
-      <div class="add-more">
-          <a href="javascript:void(0);" class="add-medicine"><i class="fa fa-plus-circle"></i> Add Medicine</a>
-      </div>
-  </div>
-  </div>
-						<!-- Prescription Item -->
-						<!-- tests Item -->
-						<div class="card card-table">
-							<div class="card-body">
-                <h4 class="card-title"><b>Test List</b></h4>
-								<div class="test-info">
-                  <div class="row form-row test-cont">
-              
-                      <div class="col-12 col-md-10 col-lg-11">
-                          <div class="row form-row">
-
-                              <div class="col-12 col-md-5 col-lg-5">
-                                  <div class="form-group">
-                                      <label>Test Name</label>
-                                      <input type="text" class="form-control" name="test_name" id="test_name">
-                                  </div> 
                               </div>
 
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-md-2 col-lg-1"><label
+                              class="d-md-block d-sm-none d-none">&nbsp;</label><a href="#"
+                              class="btn btn-danger trash"><i class="far fa-trash-alt"></i></a></div>
+
+                        </div>
+
+
+                      </div>
+                      <div class="add-more">
+                        <a href="javascript:void(0);" class="add-medicine"><i class="fa fa-plus-circle"></i> Add
+                          Medicine</a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Prescription Item -->
+                  <!-- tests Item -->
+                  <div class="card card-table">
+                    <div class="card-body">
+                      <h4 class="card-title"><b>Test List</b></h4>
+                      <div class="test-info">
+                        <div class="row form-row test-cont">
+
+                          <div class="col-12 col-md-10 col-lg-11">
+                            <div class="row form-row">
+
+                              <div class="col-12 col-md-5 col-lg-5">
+                                <div class="form-group">
+                                  <label>Test Name</label>
+                                  <select class="form-control select2-med form-control" name="test_id"
+                                    id="test_name_select" required>
+                                    <option value="">Select Test</option>
+                                    {% for t in tests %}
+                                    <option value="{{ t.test_id }}">{{ t.test_name }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </div>
+                              </div>
 
                               <div class="col-12 col-md-6 col-lg-6">
-                                  <div class="form-group">
-                                      <label>Description</label>
-                                      <input type="text" class="form-control" name="description" id="description">
-                                  </div> 
+                                <div class="form-group">
+                                  <label>Description</label>
+                                  <input type="text" class="form-control" name="description" id="description">
+                                </div>
                               </div>
 
                               <div class="col-12 col-md-1 col-lg-1">
                                 <div class="form-group">
-                                    <label>ID</label>
-                                    <input type="number" class="form-control" name="id" id="id">
-                                </div> 
+                                  <label>ID</label>
+                                  <input type="number" class="form-control" name="id" id="test_id_field" readonly>
+                                </div>
                               </div>
 
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-md-2 col-lg-1"><label
+                              class="d-md-block d-sm-none d-none">&nbsp;</label><a href="#"
+                              class="btn btn-danger trash"><i class="far fa-trash-alt"></i></a></div>
+
+                        </div>
                       </div>
+                      <div class="add-more">
+                        <a href="javascript:void(0);" class="add-test"><i class="fa fa-plus-circle"></i> Add Test</a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /tests Item -->
+                  <!-- /extra Item -->
+                  <div class="card card-table">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-center">
+                          <thead>
+                            <tr>
+                              <th style="min-width: 300px">Additional Information</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <div class="input-group">
+                                  <input class="form-control" type="text" name="extra_information"
+                                    id="extra_information">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" id="start-voice-btn">
+                                      <i class="fas fa-microphone"></i>
+                                    </button>
+                                  </div>
+                                </div>
+
+                              </td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="col-12 col-md-2 col-lg-1"><label class="d-md-block d-sm-none d-none">&nbsp;</label><a href="#" class="btn btn-danger trash"><i class="far fa-trash-alt"></i></a></div>
+                  <!-- /extra Item -->
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="submit-section">
+                        <button type="submit" class="btn btn-primary submit-btn">
+                          Save
+                        </button>
 
+                      </div>
+                    </div>
                   </div>
-                </div>
-								<div class="add-more">
-									<a href="javascript:void(0);" class="add-test"><i class="fa fa-plus-circle"></i> Add Test</a>
-								</div>
-							</div>
-						</div>
-						<!-- /tests Item -->
-						<!-- /extra Item -->
-            <div class="card card-table">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-hover table-center">
-                    <thead>
-                      <tr>
-                        <th style="min-width: 300px">Additional Information</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <input class="form-control" type="text" name="extra_information" id="extra_information" >
-                        </td>
 
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
               </div>
             </div>
-
-						<!-- /extra Item -->
-						<div class="row">
-							<div class="col-md-12">
-							  <div class="submit-section">
-                  <button type="submit" class="btn btn-primary submit-btn">
-                  Save
-                  </button>
-                  
-                </div>
-							</div>
-						</div>
-						
           </div>
-        </div>
-      </div>
-    </form>
-      <!-- /Page Content -->
-
-      <!-- Footer -->
-      {% include 'footer.html' %}
-      <!-- /Footer -->
-    </div>
-    <!-- /Main Wrapper -->
-
-    <!-- Add Medical Records Modal -->
-    <div class="modal fade custom-modal" id="add_medical_records">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title">Medical Records</h3>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form>
-            <div class="modal-body">
-              <div class="form-group">
-                <label>Date</label>
-                <input
-                  type="text"
-                  class="form-control datetimepicker"
-                  value="31-10-2019"
-                />
-              </div>
-              <div class="form-group">
-                <label>Description ( Optional )</label>
-                <textarea class="form-control"></textarea>
-              </div>
-              <div class="form-group">
-                <label>Upload File</label>
-                <input type="file" class="form-control" />
-              </div>
-              <div class="submit-section text-center">
-                <button type="submit" class="btn btn-primary submit-btn">
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-secondary submit-btn"
-                  data-dismiss="modal"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
           </form>
+          <!-- /Page Content -->
+
+          <!-- Footer -->
+          {% include 'footer.html' %}
+          <!-- /Footer -->
         </div>
-      </div>
-    </div>
-    <!-- /Add Medical Records Modal -->
+        <!-- /Main Wrapper -->
 
-    <!-- jQuery -->
-    <script src="{% static 'MedSavvy-System/js/Normal/jquery.min.js' %}"></script>
+        <!-- Add Medical Records Modal -->
+        <div class="modal fade custom-modal" id="add_medical_records">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Medical Records</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label>Date</label>
+                    <input type="text" class="form-control datetimepicker" value="31-10-2019" />
+                  </div>
+                  <div class="form-group">
+                    <label>Description ( Optional )</label>
+                    <textarea class="form-control"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Upload File</label>
+                    <input type="file" class="form-control" />
+                  </div>
+                  <div class="submit-section text-center">
+                    <button type="submit" class="btn btn-primary submit-btn">
+                      Submit
+                    </button>
+                    <button type="button" class="btn btn-secondary submit-btn" data-dismiss="modal">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /Add Medical Records Modal -->
 
-    <!-- Bootstrap Core JS -->
-    <script src="{% static 'MedSavvy-System/js/Normal/popper.min.js' %}"></script>
-    <script src="{% static 'MedSavvy-System/js/Normal/bootstrap.min.js' %}"></script>
+        <!-- jQuery -->
+        <script src="{% static 'MedSavvy-System/js/Normal/jquery.min.js' %}"></script>
 
-    <!-- Slimscroll JS -->
-    <script src="{% static 'MedSavvy-System/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+        <!-- Bootstrap Core JS -->
+        <script src="{% static 'MedSavvy-System/js/Normal/popper.min.js' %}"></script>
+        <script src="{% static 'MedSavvy-System/js/Normal/bootstrap.min.js' %}"></script>
 
-    <!-- Datetimepicker JS -->
-    <!-- <script src="{% static 'MedSavvy-System/js/Normal/moment.min.js' %}"></script>
+        <!-- Slimscroll JS -->
+        <script src="{% static 'MedSavvy-System/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+        <!-- Datetimepicker JS -->
+        <!-- <script src="{% static 'MedSavvy-System/js/Normal/moment.min.js' %}"></script>
     <script src="{% static 'MedSavvy-System/js/Normal/bootstrap-datetimepicker.min.js' %}"></script> -->
 
-    <!-- Prescription Settings JS -->
-    <script src="{% static 'MedSavvy-System/js/Normal/prescription-settings.js' %}"></script>
+        <!-- Prescription Settings JS -->
+        <script src="{% static 'MedSavvy-System/js/Normal/prescription-settings.js' %}"></script>
 
-    	<!-- Datatables JS -->
-		<script src="{% static 'MedSavvy-System/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
-		<script src="{% static 'MedSavvy-System/plugins/admin/datatables/datatables.min.js'%}"></script>
+        <!-- Datatables JS -->
+        <script src="{% static 'MedSavvy-System/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script>
+        <script src="{% static 'MedSavvy-System/plugins/admin/datatables/datatables.min.js'%}"></script>
 
-    <!-- Sticky Sidebar JS -->
-    <!-- <script src="{% static 'MedSavvy-System/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+        <!-- Sticky Sidebar JS -->
+        <!-- <script src="{% static 'MedSavvy-System/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
     <script src="{% static 'MedSavvy-System/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script> -->
 
-    <!-- Custom JS -->
-    <script src="{% static 'MedSavvy-System/Outside_assets/js/script.js' %}"></script>
-	
-  </body>
+        <!-- Custom JS -->
+        <script src="{% static 'MedSavvy-System/Outside_assets/js/script.js' %}"></script>
 
-  <!-- doccure/patient-profile.html  30 Nov 2019 04:12:13 GMT -->
+        <!-- Select2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!-- ... head and body sections unchanged up to your <script> block -->
+
+        <script>
+          function disableDuplicateMedicines() {
+            const selected = [];
+            $('select[name="medicine_name"]').each(function () {
+              const val = $(this).val();
+              if (val) selected.push(val);
+            });
+
+            $('select[name="medicine_name"]').each(function () {
+              const $select = $(this);
+              const currentVal = $select.val();
+
+              $select.find('option').each(function () {
+                const val = $(this).val();
+                $(this).prop('disabled', val && val !== currentVal && selected.includes(val));
+              });
+            });
+          }
+
+          function disableDuplicateTests() {
+            const selected = [];
+            $('select[name="test_id"]').each(function () {
+              const val = $(this).val();
+              if (val) selected.push(val);
+            });
+
+            $('select[name="test_id"]').each(function () {
+              const $select = $(this);
+              const currentVal = $select.val();
+
+              $select.find('option').each(function () {
+                const val = $(this).val();
+                $(this).prop('disabled', val && val !== currentVal && selected.includes(val));
+              });
+            });
+          }
+
+          function updateTestID(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const $testRow = $(selectElement).closest('.form-row');
+            $testRow.find('input[name="id"]').val(selectedOption.value);
+          }
+
+          $(document).ready(function () {
+
+            $('.select2-field').select2({
+              placeholder: "Select option",
+              allowClear: true,
+              width: '100%'
+            });
+
+            // Prevent double event handlers
+            $('.add-medicine').off('click');
+            $('.add-test').off('click');
+
+            $('#medicine_name_select, #test_name_select').select2({ width: '100%' });
+
+            $('#medicine_name_select').on('change', disableDuplicateMedicines);
+            $('#test_name_select').on('change', function () {
+              updateTestID(this);
+              disableDuplicateTests();
+            });
+
+            $('.add-medicine').on('click', function (e) {
+              e.preventDefault();
+              const medicineOptions = $('#medicine-options-template').html();
+
+              const newRow = `
+    <div class="row form-row medicine-cont mt-3">
+      <div class="col-12 col-md-10 col-lg-11">
+        <div class="row form-row">
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="form-group">
+              <label>Medicine Name</label>
+              <select class="form-control select2-med" name="medicine_name" required>
+                <option value="">Select Medicine</option>
+                ${medicineOptions}
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="form-group">
+              <label>Quantity</label>
+              <input type="text" class="form-control" name="quantity">
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="form-group">
+              <label>Frequency</label>
+              <select class="form-control select2-field" name="frequency">
+                <option value="">Select Frequency</option>
+                <option value="Once a day">Once a day</option>
+                <option value="Twice a day">Twice a day</option>
+                <option value="Three times a day">Three times a day</option>
+                <option value="Every 6 hours">Every 6 hours</option>
+                <option value="As needed">As needed</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="form-group">
+              <label>Relation with meal</label>
+              <select class="form-control select2-field" name="relation_with_meal">
+                <option value="">Select Relation</option>
+                <option value="Before Meal">Before Meal</option>
+                <option value="After Meal">After Meal</option>
+                <option value="With Meal">With Meal</option>
+                <option value="Empty Stomach">Empty Stomach</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>Duration</label>
+              <select class="form-control select2-field" name="duration">
+                <option value="">Select Duration</option>
+                <option value="3 days">3 days</option>
+                <option value="5 days">5 days</option>
+                <option value="7 days">7 days</option>
+                <option value="10 days">10 days</option>
+                <option value="Until symptoms improve">Until symptoms improve</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>Instruction</label>
+              <div class="input-group">
+                <input type="text" class="form-control instruction-input" name="instruction">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-secondary start-instruction-voice" title="Speak Instruction">
+                    <i class="fas fa-microphone"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-2 col-lg-1 d-flex align-items-start">
+        <a href="#" class="btn btn-danger trash mt-4"><i class="far fa-trash-alt"></i></a>
+      </div>
+    </div>
+  `;
+
+              $('.medicine-info').append(newRow);
+
+              // Initialize select2 for new selects
+              $('.medicine-cont').last().find('.select2-field').select2({
+                placeholder: "Select option",
+                allowClear: true,
+                width: '100%'
+              });
+
+              $('.medicine-cont').last().find('.select2-med').select2({ width: '100%' }).on('change', disableDuplicateMedicines);
+
+              disableDuplicateMedicines();
+
+
+
+
+
+
+              $('.select2-med').last().select2({ width: '100%' }).on('change', disableDuplicateMedicines);
+              disableDuplicateMedicines();
+            });
+
+            $('.add-test').on('click', function (e) {
+              e.preventDefault();
+
+              const testOptions = `
+        {% for t in tests %}
+        <option value="{{ t.test_id }}">{{ t.test_name }}</option>
+        {% endfor %}
+      `;
+
+              const newRow = `
+        <div class="row form-row test-cont mt-3">
+          <div class="col-12 col-md-10 col-lg-11">
+            <div class="row form-row">
+              <div class="col-12 col-md-5 col-lg-5">
+                <div class="form-group">
+                  <label>Test Name</label>
+                  <select class="form-control select2-test" name="test_id" required>
+                    <option value="">Select Test</option>
+                    ${testOptions}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" class="form-control" name="description">
+                </div>
+              </div>
+              <div class="col-12 col-md-1 col-lg-1">
+                <div class="form-group">
+                  <label>ID</label>
+                  <input type="number" class="form-control" name="id" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-2 col-lg-1 d-flex align-items-start">
+            <a href="#" class="btn btn-danger trash mt-4"><i class="far fa-trash-alt"></i></a>
+          </div>
+        </div>
+      `;
+
+              $('.test-info').append(newRow);
+
+              const $newSelect = $('.select2-test').last();
+              $newSelect.select2({ width: '100%' }).on('change', function () {
+                updateTestID(this);
+                disableDuplicateTests();
+              });
+
+              disableDuplicateTests();
+            });
+
+            $(document).on('click', '.trash', function (e) {
+              e.preventDefault();
+              $(this).closest('.form-row').remove();
+              disableDuplicateMedicines();
+              disableDuplicateTests();
+            });
+          });
+
+
+
+
+
+
+
+
+          // Voice recognition setup
+          // Voice recognition setup for Additional Information field
+          const voiceBtn = document.getElementById('start-voice-btn');
+          const infoField = document.getElementById('extra_information');
+
+          if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            let recognition;
+            let isListening = false;
+            let finalTranscript = '';
+
+            voiceBtn.addEventListener('click', () => {
+              if (!isListening) {
+                recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.interimResults = true;
+                recognition.maxAlternatives = 1;
+
+                finalTranscript = infoField.value || '';
+                voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+                voiceBtn.classList.remove('btn-secondary');
+                voiceBtn.classList.add('btn-danger');
+                isListening = true;
+
+                recognition.start();
+
+                recognition.onresult = function (event) {
+                  let interimTranscript = '';
+
+                  for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                      finalTranscript += (finalTranscript ? ' ' : '') + event.results[i][0].transcript;
+                    } else {
+                      interimTranscript += event.results[i][0].transcript;
+                    }
+                  }
+
+                  infoField.value = finalTranscript + interimTranscript;
+                };
+
+                recognition.onerror = function (event) {
+                  console.error('Speech recognition error:', event.error);
+                  alert("Speech recognition error: " + event.error);
+                  stopRecognition();
+                };
+
+                recognition.onend = function () {
+                  stopRecognition();
+                };
+
+                function stopRecognition() {
+                  voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                  voiceBtn.classList.remove('btn-danger');
+                  voiceBtn.classList.add('btn-secondary');
+                  isListening = false;
+                }
+
+              } else {
+                recognition.stop();
+              }
+            });
+          } else {
+            voiceBtn.disabled = true;
+            voiceBtn.title = "Speech Recognition not supported in this browser.";
+          }
+
+
+
+          if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            // To allow multiple instances, create one recognition per click
+            $(document).on('click', '.start-instruction-voice', function () {
+              const btn = this;
+              const inputField = $(btn).closest('.input-group').find('.instruction-input')[0];
+              const recognition = new SpeechRecognition();
+
+              recognition.lang = 'en-US';
+              recognition.interimResults = true; // <-- Enable interim results
+              recognition.maxAlternatives = 1;
+
+              // Save original value to append to it on final result
+              let finalTranscript = inputField.value || '';
+
+              // Change button to stop icon and red while listening
+              $(btn).html('<i class="fas fa-stop"></i>');
+              $(btn).removeClass('btn-secondary').addClass('btn-danger');
+
+              recognition.start();
+
+              recognition.onresult = function (event) {
+                let interimTranscript = '';
+
+                // Loop through results to get interim transcript
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                  if (event.results[i].isFinal) {
+                    finalTranscript += (finalTranscript ? ' ' : '') + event.results[i][0].transcript;
+                  } else {
+                    interimTranscript += event.results[i][0].transcript;
+                  }
+                }
+
+                // Update input field live with final + interim transcript
+                inputField.value = finalTranscript + interimTranscript;
+              };
+
+              recognition.onerror = function (event) {
+                console.error('Speech recognition error:', event.error);
+                alert("Speech recognition error: " + event.error);
+                resetButton();
+              };
+
+              recognition.onend = function () {
+                resetButton();
+              };
+
+              function resetButton() {
+                $(btn).html('<i class="fas fa-microphone"></i>');
+                $(btn).removeClass('btn-danger').addClass('btn-secondary');
+              }
+            });
+
+          } else {
+            // If speech recognition not supported, disable mic buttons for instructions
+            $(document).on('click', '.start-instruction-voice', function () {
+              alert('Speech Recognition not supported in this browser.');
+            });
+          }
+
+        </script>
+
+
+        <style>
+          .select2-med+.select2-container .select2-selection--single,
+          .select2-test+.select2-container .select2-selection--single,
+          .select2-field+.select2-container .select2-selection--single {
+            height: 47px;
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 16px;
+            box-shadow: none;
+          }
+
+          .select2-med+.select2-container .select2-selection__rendered,
+          .select2-test+.select2-container .select2-selection__rendered,
+          .select2-field+.select2-container .select2-selection__rendered {
+            line-height: 30px;
+            color: #495057;
+          }
+
+          .select2-med+.select2-container .select2-selection__arrow,
+          .select2-test+.select2-container .select2-selection__arrow,
+          .select2-field+.select2-container .select2-selection--single {
+            height: 47px;
+          }
+        </style>
+
+</body>
+
+<!-- doccure/patient-profile.html  30 Nov 2019 04:12:13 GMT -->
+
 </html>

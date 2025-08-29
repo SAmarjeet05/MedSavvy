@@ -63,6 +63,7 @@ urlpatterns = [
     path('report-history/', views.report_history,name='report-history'),
     
     
+    
 ]
   
 

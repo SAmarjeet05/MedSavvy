@@ -259,10 +259,7 @@
 
                                   <td>
                                     <h2 class="table-avatar">
-                                      <a
-                                        href="doctor-profile.html"
-                                        class="avatar avatar-sm mr-2"
-                                      >
+                                      <a href="{% url 'doctor-profile' pk=prescription.doctor.doctor_id %}" class="avatar avatar-sm mr-2">
                                         <img
                                           class="avatar-img rounded-circle"
                                           src="{{prescription.doctor.featured_image.url }}"
@@ -485,14 +482,12 @@
     <!-- Searchbar JS -->
     <script src="{% static 'MedSavvy-System/js/Normal/sidebar.js' %}"></script>
 
-    {% if messages %}
-    <script>
-        {% for message in messages %}
-            $(document).ready(function () {
-                $('.toast').toast('show');
-            });
-        {% endfor %}
-    </script>
+  {% if messages %}
+  <script>
+      $(document).ready(function () {
+          $('.toast').toast('show');
+      });
+  </script>
   {% endif %}
 
 

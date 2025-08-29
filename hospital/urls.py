@@ -46,6 +46,7 @@ urlpatterns = [
     path('test-add-to-cart/<int:pk>/<int:pk2>/', views.test_add_to_cart, name='test-add-to-cart'),
     path('delete-prescription/<int:pk>/', views.delete_prescription, name='delete-prescription'),
     path('delete-report/<int:pk>/', views.delete_report, name='delete-report'),
+    
 
 ]
 
