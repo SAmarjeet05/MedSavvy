@@ -23,6 +23,7 @@ urlpatterns = [
     path('schedule-timings/', views.schedule_timings, name='schedule-timings'),
     path('patient-id/', views.patient_id, name='patient-id'),
     path('create-prescription/<int:pk>/', views.create_prescription, name='create-prescription'),
+    # path("api/generate_advice/", generate_advice, name="generate_advice"),
     path('patient-profile/<int:pk>/',views.patient_profile, name='patient-profile'),
     path('delete-education/<int:pk>/',views.delete_education, name='delete-education'),
     path('delete-experience/<int:pk>/',views.delete_experience, name='delete-experience'),

@@ -279,6 +279,9 @@
                                       >
                                         <i class="far fa-eye"></i> View
                                       </a>
+                                      <a href="{% url 'delete-prescription' pk=prescription.prescription_id %}" onclick="return confirm('Are you sure you want to Delete?');" class="btn btn-sm bg-danger-light" >
+                                        <i class="fas fa-trash"></i> Delete
+                                      </a>
                                     </div>
                                   </td>
                                 </tr>

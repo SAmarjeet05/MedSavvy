@@ -31,10 +31,14 @@ from io import BytesIO
 from urllib import response
 from django.shortcuts import render
 from django.template.loader import get_template
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from xhtml2pdf import pisa
 from .models import Report
 from django.views.decorators.csrf import csrf_exempt
+import json
+import os
+# from google import genai
+# from google.genai import types
 
 # Create your views here.
 
@@ -735,6 +739,72 @@ def doctor_review(request, pk):
  
  
    
- 
+#  # Create the client (reads GEMINI_API_KEY env var)
+# client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
+# MODEL_ID = "gemini-2.0-flash-001"  # fast, low-latency text model
+# # See SDK README for model naming examples. :contentReference[oaicite:2]{index=2}
+
+# SYSTEM_INSTRUCTIONS = (
+#     "You are a clinical assistant generating concise, patient-facing advice. "
+#     "Keep it clear, actionable, and 4-6 bullet points max. "
+#     "Do NOT diagnose; base advice on provided meds/tests/notes only. "
+#     "Add generic precautions (hydration, rest) when appropriate. "
+#     "Include red-flag symptoms that require urgent care, if relevant."
+# )
+
+# @csrf_exempt
+# def generate_advice(request):
+#     if request.method != "POST":
+#         return JsonResponse({"error": "POST only"}, status=405)
+
+#     try:
+#         data = json.loads(request.body.decode("utf-8"))
+#     except json.JSONDecodeError:
+#         return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+#     medicines = data.get("medicines", [])
+#     tests = data.get("tests", [])
+#     patient = data.get("patient", {})
+#     age = (patient.get("age") or "").strip()
+#     blood_group = (patient.get("blood_group") or "").strip()
+#     symptoms = (patient.get("symptoms") or "").strip()
+
+#     # Compose a robust prompt
+#     prompt = f"""
+# System:
+# {SYSTEM_INSTRUCTIONS}
+
+# Patient:
+# - Age: {age or "N/A"}
+# - Blood Group: {blood_group or "N/A"}
+
+# Clinical context:
+# - Medicines prescribed: {", ".join(medicines) if medicines else "None"}
+# - Tests ordered: {", ".join(tests) if tests else "None"}
+# - Notes / symptoms: {symptoms or "None"}
+
+# Task:
+# Generate 'Advice / Recommendation' for the patient as bullet points.
+# End with a one-line friendly reminder to follow the doctor's instructions.
+# """
+
+#     try:
+#         response = client.models.generate_content(
+#             model=MODEL_ID,
+#             contents=prompt,
+#             config=types.GenerateContentConfig(
+#                 temperature=0.6,
+#                 max_output_tokens=350,
+#                 # Optional: safety filters (keep defaults or tune as needed)
+#                 # See docs for safety config examples. :contentReference[oaicite:3]{index=3}
+#             ),
+#         )
+#         advice_text = (response.text or "").strip() or "No advice generated."
+#         return JsonResponse({"advice": advice_text})
+
+#     except APIError as e:
+#         return JsonResponse({"error": f"Gemini API error: {e.message}"}, status=502)
+#     except Exception as e:
+#         return JsonResponse({"error": f"Server error: {str(e)}"}, status=500)
 

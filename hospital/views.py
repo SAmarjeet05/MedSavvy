@@ -33,6 +33,8 @@ from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+import os
 
 
 # Create your views here.
@@ -719,5 +721,13 @@ def got_offline(sender, user, request, **kwargs):
     user.login_status = False
     user.save()
     
+def webhook(request):
+    VERIFY_TOKEN = os.getenv('VERIFY_TOKEN', 'Amarjeet')
+    mode = request.GET.get('hub.mode')
+    token = request.GET.get('hub.verify_token')
+    challenge = request.GET.get('hub.challenge')
 
+    if mode == 'subscribe' and token == VERIFY_TOKEN:
+        return HttpResponse(challenge, status=200)
+    return HttpResponse('Verification failed', status=403)
 
